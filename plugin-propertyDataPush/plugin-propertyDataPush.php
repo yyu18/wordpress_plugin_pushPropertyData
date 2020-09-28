@@ -15,6 +15,9 @@ $Property_Data_Push_Config = Property_Data_Push_Config::GetInstance();
 $Property_Data_Push_Config->InitPlugin();
 
 register_activation_hook( __FILE__, 'my_plugin_create_db' );
+register_deactivation_hook( __FILE__, 'my_plugin_drop_db' );
+add_action( 'save_post', 'push_property_data', 10, 2 );
+
 function my_plugin_create_db() {
 	global $wpdb;
 	$charset_collate = $wpdb->get_charset_collate();
@@ -31,7 +34,6 @@ function my_plugin_create_db() {
     dbDelta( $sql );
 }
 
-register_deactivation_hook( __FILE__, 'my_plugin_drop_db' );
 function my_plugin_drop_db() {
     global $wpdb;
 	$charset_collate = $wpdb->get_charset_collate();
@@ -41,7 +43,6 @@ function my_plugin_drop_db() {
     $wpdb->query($sql);
 }
 
-add_action( 'save_post', 'push_property_data', 10, 2 );
 function push_property_data($post_ID, $post_after){
     global $wpdb;
     $table_name = $wpdb->prefix . 'push_config';

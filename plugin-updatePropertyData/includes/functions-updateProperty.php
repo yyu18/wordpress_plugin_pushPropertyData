@@ -8,3 +8,9 @@ function new_post_info($data) {
     }
     return $new_post_info;
 }
+
+function meta_update($id,$meta) {
+    foreach($meta as $key=>$value) {
+        update_post_meta($id,$key,$value[0]);
+    }
+}
