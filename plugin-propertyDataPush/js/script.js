@@ -1,4 +1,4 @@
-const url = 'http://'+window.location.hostname+'/wp-content/plugins/plugin-propertyDataPush/api/configSettingAPI.php'
+const url = 'https://'+window.location.hostname+'/wp-content/plugins/plugin-propertyDataPush/api/configSettingAPI.php'
 function delete_endpoint(element){
     $('#add_new_endpoint').prop('disabled', true)
     $('#delete_endpoint').prop('disabled', true)
