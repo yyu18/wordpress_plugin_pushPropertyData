@@ -1,0 +1,5 @@
+POST http://51assignment.ca/wp-content/plugins/plugin-propertyDataPush/api/configSettingAPI.php
+
+{
+    "hello":"hello"
+}

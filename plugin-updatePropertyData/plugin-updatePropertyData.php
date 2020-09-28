@@ -1,4 +1,12 @@
 <?php
+/**
+ * Plugin Name:       Update Property Data
+ * Description:       Update Property Data
+ * Version:           1.0.0
+ * Author:            Hubert Yu
+ * Text Domain:       my-basics-plugin
+ */
+
 header("Access-Control-Allow-Origin: *");
 header("Content-Type: application/json; ");
 header("Access-Control-Allow-Methods: OPTIONS,GET,POST,PUT,DELETE");
@@ -9,7 +17,9 @@ if (file_exists($_SERVER['DOCUMENT_ROOT'] . '/wp-load.php')) {
     require_once($_SERVER['DOCUMENT_ROOT'] . '/wp-load.php');
 }
 
-
+if(file_exists(ABSPATH.'wp-content/plugins/plugin-updatePropertyData/includes/functions-updateProperty.php')){
+    require_once(ABSPATH.'wp-content/plugins/plugin-updatePropertyData/includes/functions-updateProperty.php');
+}
 
 if(isset($_POST["data"])){
 
@@ -20,11 +30,8 @@ if(isset($_POST["data"])){
     $args = array("post_type" => $post_type,"name"=> $post_name);
     $post = get_posts( $args );
     if(empty($post)){
-        $new_post_info = array();
-        foreach($_POST["data"]["post"] as $key=>$value) {
-            if($key==="ID") continue;
-            $new_post_info[$key] = $value;
-        }
+        $new_post_info = new_post_info($_POST["data"]["post"]);
+
         wp_insert_post($new_post_info);
         $new_post_id = get_posts( array("post_type" => $post_type,"name"=>$new_post_info["post_name"]) )[0]->ID;
 
@@ -48,10 +55,4 @@ if(isset($_POST["data"])){
     echo json_encode($response);
     return;
 }
-
-if(isset($_GET['data'])) {
-    $response["message"] = $_GET;
-    $response["error"] = false;
-    
-    return;
-}
+?>

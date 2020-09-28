@@ -3,9 +3,8 @@
 function term_value_add($id,$name) {
     if(get_the_terms($id,$name)){
         return get_the_terms($id,$name);
-    } else {
-        return 0;
-    }
+    } 
+    return "";
 }
 
 function property_value_check($array,$value) {

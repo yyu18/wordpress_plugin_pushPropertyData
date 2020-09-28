@@ -28,14 +28,13 @@ class Property_Data_Push_Config{
     public function RenderPage(){  
         global $wpdb;
         $table_name = $wpdb->prefix . 'push_config';
-        $row = $wpdb->get_results("SELECT * FROM $table_name");
-        $number = count($row);
+        $row = $wpdb->get_results("SELECT * FROM $table_name WHERE config_status=true");
+        $number = count($wpdb->get_results("SELECT * FROM $table_name"));
      ?>  
      <div class='wrap'>  
       <div class="main-content">  
 
-    <form id="configForm" class="form-basic"> 
-    <div class="form-title-row">  
+      <div>  
             <h1>Property Data Config</h1>  
         </div>  
 
@@ -43,54 +42,56 @@ class Property_Data_Push_Config{
             foreach($row as $value) {
                $config = json_decode($value->config);
         ?>
-            <h3><?php echo $value->key_name;?></h3>
+            <form id="configForm" class="form-basic"> 
 
+            <h3><?php echo $value->key_name;?></h3>
+            <p><button type = "button"onclick="delete_endpoint(this)" data-id="<?php echo ''.$value->id.'';?> " data-keyName = "<?php echo ''.$value->key_name.'';?> " >Delete Endpoint</button><p> 
+            
+            <p><button data-id="<?php echo ''.$value->id.'';?> "onclick="update_data_config(event,this)" type="submit">Save</button><p> 
+            <div class="form-row">  
+                <input id="property_id" style="display:none"name=<?php echo 'id';?> value= "<?php echo ''.$value->id.'';?> "></input>
+            </div> 
             <div class="form-row">  
                 <p>URL: </p>
-                <input id="property_url" name=<?php echo ''.$value->key_name.'_url';?> value="<?php echo $config->property_url ?> "></input>
+                <input id="property_url" name=<?php echo 'url';?> value="<?php echo $config->property_url ?> "></input>
             </div> 
 
             <div class="form-row">  
                 <p>Type: </p>
-                <input id="property_type" name=<?php echo ''.$value->key_name.'_type';?>  value="<?php echo $config->property_type ?>"></input>
+                <input id="property_type" name=<?php echo 'type';?>  value="<?php echo $config->property_type ?>"></input>
             </div>  
 
             <div class="form-row">  
                 <p>Status:  </p>
-                <input id="property_status" name=<?php echo ''.$value->key_name.'_status';?> value="<?php echo $config->property_status ?>" ></input>
+                <input id="property_status" name=<?php echo 'status';?> value="<?php echo $config->property_status ?>" ></input>
             </div>  
 
             <div class="form-row">  
                 <p>Features:  </p>
-                <input id="property_features" name=<?php echo ''.$value->key_name.'_feature';?> value="<?php echo $config->property_feature ?> "></input>
+                <input id="property_features" name=<?php echo 'feature';?> value="<?php echo $config->property_feature ?> "></input>
             </div>  
-
 
             <div class="form-row">  
                 <p>Labels: </p>
-                <input id="property_labels" name=<?php echo ''.$value->key_name.'_labels';?> value="<?php echo $config->property_labels ?> "></input>
+                <input id="property_labels" name=<?php echo 'labels';?> value="<?php echo $config->property_labels ?> "></input>
             </div> 
 
             <div class="form-row">  
                 <p>City: </p>
-                <input id="property_city"  name=<?php echo ''.$value->key_name.'_city';?>   value="<?php echo $config->property_city ?>  "></input>
+                <input id="property_city"  name=<?php echo 'city';?>   value="<?php echo $config->property_city ?>  "></input>
             </div>  
-
+      </form>  
         <?php
             }
         ?>
-        <div class="form-row">  
-            <p><button id="save_endpoint" type="submit">Save</button><p> 
-        </div>  
-        
-      </form>  
+
       <p><button id="add_new_endpoint" value="<?php echo $number+1; ?>">Add New Endpoint</button><p> 
-      <p><button id="delete_endpoint" value="<?php echo $number; ?>">Delete Endpoint</button><p> 
+
   </div>  
         
      </div>  
     <script src="https://code.jquery.com/jquery-1.9.1.js"></script>
-    <script src="/wp-content/plugins/plugin-propertyDataPush/js/script.js?ver=9"></script>
+    <script src="/wp-content/plugins/plugin-propertyDataPush/js/script.js?ver=27"></script>
      <?php  
     }  
 
