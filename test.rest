@@ -3,3 +3,4 @@ POST http://51assignment.ca/wp-content/plugins/plugin-propertyDataPush/api/confi
 {
     "hello":"hello"
 }
+
